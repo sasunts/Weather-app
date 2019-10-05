@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather App</title>
+
+
+</head>
+<body>
+    <h1>Simple Weather App </h1>
+    <p>Enter the location you want to get weather information for:</p>
+    <div id="app1">
+        <input type="text" class="location-input" v-model="city" placeholder="i.e Dublin">
+        <button type="submit" v-on:click='getData' class="button">Search</button>
+        <div class="results">
+                <p>
+                    {{weather}}
+                    
+                </p>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        
+        new Vue({
+            el:"#app1",
+            data : {
+                city: "",
+                weather: ""
+            },
+
+            methods: {
+
+            getData: function(){
+                var self = this;
+                console.log("Calling open Weather API...")
+                $.getJSON("https://api.openweathermap.org/data/2.5/forecast?q="+self.city+"&units=metric&appid=6fccb263105c078b7f49de484b9363d1", function(json){
+                    //self.$set('data', json);
+                    self.weather = json
+            })
+        }
+            }
+
+        })
+    
+    </script>
+
+</body>
+</html>
