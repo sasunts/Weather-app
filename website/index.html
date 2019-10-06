@@ -11,13 +11,20 @@
 <body>
     <h1>Simple Weather App </h1>
     <p>Enter the location you want to get weather information for:</p>
-    <div id="app1">
+    <div id="app">
         <input type="text" v-model="city" placeholder="i.e Dublin">
-        <button type="submit" v-on:click='getData'>Search</button>
-        <div class="results" v-for="data in weather">
+        <button type="submit" v-on:click='getData'>Search</button><br><br>
+        {{hint}}
+        <div v-for="d in weather.list">
                 <p>
                     <ul >
-                          <li >{{weather.list[0].main}}</li>  
+                        <!--Go up in 8's to get exact data-->
+                          <li >Date: {{ d.dt_txt }} <br>
+                               Weather: {{d.weather[0].main}} <br>
+                               Temperature: {{d.main.temp}}<br>
+                               Wind Speed: {{d.wind.speed}} km/h <br>
+                               Rainfall: {{d.rain}} mm
+                          </li>  
                     </ul>
                     
                     
@@ -30,8 +37,9 @@
     <script>
         
         new Vue({
-            el:"#app1",
+            el:"#app",
             data : {
+                hint: "",
                 city: "",
                 weather: ""
             },
@@ -44,7 +52,15 @@
                 res.then(response => response.json())
                 .then(response => {
                     this.weather = response
+
+                    var status = this.weather.list[0].weather[0].main
+                    console.log(status)
+                    if(status == "Rain"){
+                        console.log("boom")
+                        this.hint = "Looks like its raining, bring an umbrella."
+                    }
                 })
+
             }
         }
     })
