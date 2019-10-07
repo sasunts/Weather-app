@@ -52,13 +52,27 @@
                 res.then(response => response.json())
                 .then(response => {
                     this.weather = response
-
-                    var status = this.weather.list[0].weather[0].main
-                    console.log(status)
-                    if(status == "Rain"){
-                        console.log("boom")
-                        this.hint = "Looks like its raining, bring an umbrella."
+                    this.hint = ""
+                    var avgTemp = 0;
+                    for(i=0; i<this.weather.list.length;i++){
+                        var status = this.weather.list[i].weather[0].main
+                        avgTemp = avgTemp + this.weather.list[i].main.temp
+                        console.log(status)
+                        if(status == "Rain"){
+                            this.hint = "Looks like it will rain in the next 5 days, bring an umbrella."
+                        }
                     }
+                    avgTemp = avgTemp/this.weather.list.length
+                    if (avgTemp <10){
+                        this.hint = this.hint + " The temperature over the next 5 days will on average be below 10 degrees celcius. Bring a warm jacket."
+                    }
+                    else if (avgTemp >10 && avgTemp <20){
+                        this.hint = this.hint + " The temperature over the next 5 days will on average be between 10 and 20 degrees celcius. Bring a light jacket."
+                    }
+                    else if (avgTemp >20 ){
+                        this.hint = this.hint + " The temperature over the next 5 days will on average be above 20 degrees celcius. Have you packed your swim gear?."
+                    }
+                    
                 })
 
             }
