@@ -15,7 +15,7 @@
         <input type="text" v-model="city" placeholder="i.e Dublin">
         <button type="submit" v-on:click='getData'>Search</button><br><br>
         {{hint}}
-        <div v-for="d in weather.list">
+        <div v-for="d in shortWeather">
                 <p>
                     <ul >
                         <!--Go up in 8's to get exact data-->
@@ -41,7 +41,8 @@
             data : {
                 hint: "",
                 city: "",
-                weather: ""
+                weather: "",
+                shortWeather: {}
             },
 
             methods: {
@@ -72,6 +73,13 @@
                     else if (avgTemp >20 ){
                         this.hint = this.hint + " The temperature over the next 5 days will on average be above 20 degrees celcius. Have you packed your swim gear?."
                     }
+                    var k = 0
+                    for(i=0; i<this.weather.list.length;i+=8){
+                        this.shortWeather[k] =  this.weather.list[i]
+                        k++;
+                        
+                    }
+                    console.log(this.shortWeather)
                     
                 })
 
