@@ -65,13 +65,13 @@
                     }
                     avgTemp = avgTemp/this.weather.list.length
                     if (avgTemp <10){
-                        this.hint = this.hint + " The temperature over the next 5 days will on average be below 10 degrees celcius. Bring a warm jacket."
+                        this.hint = this.hint + " The temperature over the next 5 days will on average be below 10 degrees celcius ("+avgTemp.toFixed(1)+"). Bring a warm jacket."
                     }
                     else if (avgTemp >10 && avgTemp <20){
-                        this.hint = this.hint + " The temperature over the next 5 days will on average be between 10 and 20 degrees celcius. Bring a light jacket."
+                        this.hint = this.hint + " The temperature over the next 5 days will on average be between 10 and 20 degrees celcius ("+avgTemp.toFixed(1)+"). Bring a light jacket."
                     }
                     else if (avgTemp >20 ){
-                        this.hint = this.hint + " The temperature over the next 5 days will on average be above 20 degrees celcius. Have you packed your swim gear?."
+                        this.hint = this.hint + " The temperature over the next 5 days will on average be above 20 degrees celcius ("+avgTemp.toFixed(1)+"). Have you packed your swim gear?."
                     }
                     var k = 0
                     for(i=0; i<this.weather.list.length;i+=8){
