@@ -11,14 +11,18 @@
 <body>
     <h1>Simple Weather App </h1>
     <p>Enter the location you want to get weather information for:</p>
+    <!-- Vue app ID -->
     <div id="app">
+        <!-- Vue v-model to reference variables -->
         <input type="text" v-model="city" placeholder="i.e Dublin">
+        <!-- Vue v-on:click to bind UI with vue -->
         <button type="submit" v-on:click='getData'>Search</button><br><br>
+        <!-- Render the hint -->
         {{hint}}
         <div v-for="d in shortWeather">
                 <p>
                     <ul >
-                        <!--Go up in 8's to get exact data-->
+                        <!-- Render the weather data in a v-for loop -->
                           <li >Date: {{ d.dt_txt }} <br>
                                Weather: {{d.weather[0].main}} <br>
                                Temperature: {{d.main.temp}}<br>
@@ -32,10 +36,11 @@
         </div>
     </div>
     
+    <!-- Importing vue and jquery -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
-        
+        // Creation of a new vue app
         new Vue({
             el:"#app",
             data : {
@@ -46,7 +51,7 @@
             },
 
             methods: {
-
+            // This function recieves the responce from the server and does the required processes
             getData: function(){
                 var self = this;
                 let res = fetch("city/"+self.city)
@@ -55,6 +60,7 @@
                     this.weather = response
                     this.hint = ""
                     var avgTemp = 0;
+                    // Loop used to identify if it'll rain in 5 days & avg temp
                     for(i=0; i<this.weather.list.length;i++){
                         var status = this.weather.list[i].weather[0].main
                         avgTemp = avgTemp + this.weather.list[i].main.temp
@@ -63,6 +69,7 @@
                             this.hint = "Looks like it will rain in the next 5 days, bring an umbrella."
                         }
                     }
+                    // Conditions of what to bring based on avg temp
                     avgTemp = avgTemp/this.weather.list.length
                     if (avgTemp <10){
                         this.hint = this.hint + " The temperature over the next 5 days will on average be below 10 degrees celcius ("+avgTemp.toFixed(1)+"). Bring a warm jacket."
@@ -73,6 +80,7 @@
                     else if (avgTemp >20 ){
                         this.hint = this.hint + " The temperature over the next 5 days will on average be above 20 degrees celcius ("+avgTemp.toFixed(1)+"). Have you packed your swim gear?."
                     }
+                    // Subset of weather over 5 days (1 per day)
                     var k = 0
                     for(i=0; i<this.weather.list.length;i+=8){
                         this.shortWeather[k] =  this.weather.list[i]
